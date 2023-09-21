@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						</li>
 					</ul>
 				</nav>
-				<section className="flex justify-center px-6 py-10 lg:px-20">{children}</section>
+				<section className="px-6 py-10 lg:px-20">{children}</section>
 				<footer className="mt-6 text-center text-xl">@ 2023</footer>
 			</body>
 		</html>

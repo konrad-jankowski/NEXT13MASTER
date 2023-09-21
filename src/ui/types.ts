@@ -1,9 +1,10 @@
-export type ProductItemType = {
+export type ProductListItemType = {
 	id: string;
-	category: string;
 	name: string;
+	category: string;
 	price: number;
-	coverImage: {
+	description: string;
+	image: {
 		src: string;
 		alt: string;
 	};

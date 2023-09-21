@@ -1,15 +1,42 @@
-export default function SingleProductPage({
+import { type Metadata } from "next";
+import { Suspense } from "react";
+import { getProductById, getProductsList } from "@/api/products";
+import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
+import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
+import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
+
+export const generateStaticParams = async () => {
+	const products = await getProductsList();
+	return products.map((product) => ({
+		productId: product.id,
+	}));
+};
+
+export const generateMetadata = async ({
 	params,
-	searchParams,
 }: {
 	params: { productId: string };
-	searchParams: { [key: string]: string | string[] };
-}) {
-	const referral = searchParams.referral.toString();
+}): Promise<Metadata> => {
+	const product = await getProductById(params.productId);
+	return {
+		title: `${product.name} - sklep internetowy`,
+		description: `${product.description}`,
+	};
+};
+
+export default async function SingleProductPage({ params }: { params: { productId: string } }) {
+	const product = await getProductById(params.productId);
 	return (
-		<div>
-			<h1>{params.productId}</h1>
-			<p>Refellal: {referral}</p>
-		</div>
+		<>
+			<article className="max-w-xs ">
+				<ProductCoverImage {...product.image} />
+				<ProductListItemDescription product={product} />
+			</article>
+			<aside>
+				<Suspense fallback={"Loading..."}>
+					<SuggestedProducts />
+				</Suspense>
+			</aside>
+		</>
 	);
 }
