@@ -9,7 +9,7 @@ export default async function HomePage() {
 	return (
 		<main className="">
 			<h1>Home Page</h1>
-			<ul>
+			<ul data-testid="products-list">
 				{products?.data.map((p) => {
 					return (
 						<li key={p.id}>
