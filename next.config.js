@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: ["naszsklep-api.vercel.app"],
+		domains: ["naszsklep-api.vercel.app", "res.cloudinary.com"],
 	},
 	pageExtensions: ["ts", "tsx", "mdx"],
 	experimental: {

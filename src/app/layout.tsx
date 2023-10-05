@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="pl">
 			<body className={inter.className}>
-				<nav>
+				<nav className="bg-black py-2">
 					<ul className="flex h-10 items-center justify-center gap-8">
 						<li>
 							<ActiveLink href="/">Home</ActiveLink>

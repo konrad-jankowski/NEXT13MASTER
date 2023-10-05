@@ -1,8 +1,8 @@
-export async function generateStaticParams({ params }: { params: { category: string } }) {
-	console.log(params);
+// export async function generateStaticParams({ params }: { params: { category: string } }) {
+// 	console.log(params);
 
-	return [{ page: "1" }, { page: "2" }, { page: "3" }];
-}
+// 	return [{ page: "1" }, { page: "2" }, { page: "3" }];
+// }
 
 export default function CategoryProductPage({
 	params,
@@ -11,7 +11,7 @@ export default function CategoryProductPage({
 }) {
 	return (
 		<h1>
-			{params.category} {params.pageNumber}
+			Category: {params.category} Page: {params.pageNumber}
 		</h1>
 	);
 }

@@ -1,0 +1,25 @@
+query CategoriesGetList {
+	categories {
+		data {
+			id
+			attributes {
+				name
+				products {
+					data {
+						attributes {
+							name
+							price
+							coverImage {
+								data {
+									attributes {
+										url
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

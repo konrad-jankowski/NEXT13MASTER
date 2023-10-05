@@ -1,0 +1,18 @@
+query ProductGetListById($productId: ID) {
+	product(id: $productId) {
+		data {
+			attributes {
+				name
+				price
+				description
+				coverImage {
+					data {
+						attributes {
+							url
+						}
+					}
+				}
+			}
+		}
+	}
+}

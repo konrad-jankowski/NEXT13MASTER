@@ -1,0 +1,7 @@
+query GetProductIdBySlug($filters: ProductFiltersInput) {
+	products(filters: $filters) {
+		data {
+			id
+		}
+	}
+}
