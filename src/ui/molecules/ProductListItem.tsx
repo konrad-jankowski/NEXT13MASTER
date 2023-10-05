@@ -1,21 +1,29 @@
 import Link from "next/link";
-// import { ProductCoverImage } from "../atoms/ProductCoverImage";
-import { ProductListItemDescription } from "../atoms/ProductListItemDescription";
-import { type ProductListItemType } from "../types";
+import Image from "next/image";
+import { type ProductAttributesFragment } from "@/gql/graphql";
+import { formatMoney } from "@/utilis";
 
-type ProductListItemProps = {
-	product: ProductListItemType;
-};
-
-export const ProductListItem = ({ product }: ProductListItemProps) => {
+export const ProductListItem = ({
+	attributes,
+}: {
+	attributes: ProductAttributesFragment | null | undefined;
+}) => {
 	return (
 		<li>
-			<Link href={`/product/${product.id}`}>
-				<article>
-					{/* <ProductCoverImage src={product.image.src} alt={product.image.alt} /> */}
-					<ProductListItemDescription product={product} />
-				</article>
-			</Link>
+			<div key={attributes?.name}>
+				<div className="rounded-md bg-red-50 p-2">
+					<Link href={`/product/${attributes?.slug}`}>
+						<Image
+							src={attributes?.coverImage?.data?.attributes?.url ?? ""}
+							alt={attributes?.name ?? ""}
+							width={220}
+							height={220}
+						/>
+					</Link>
+				</div>
+				<h2 className="text-center">{attributes?.name}</h2>
+				<h2 className="text-center font-medium">{formatMoney(attributes?.price ?? 0)}</h2>
+			</div>
 		</li>
 	);
 };

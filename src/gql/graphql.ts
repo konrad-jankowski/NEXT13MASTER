@@ -1010,7 +1010,7 @@ export type UsersPermissionsUserRelationResponseCollection = {
 export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CategoriesGetListQuery = { categories?: { data: Array<{ id?: string | null, attributes?: { name?: string | null, products?: { data: Array<{ attributes?: { name: string, price?: number | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null } | null }> } | null };
+export type CategoriesGetListQuery = { categories?: { data: Array<{ id?: string | null, attributes?: { name?: string | null, products?: { data: Array<{ attributes?: { slug: string, name: string, price?: number | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null } | null }> } | null };
 
 export type GetProductIdBySlugQueryVariables = Exact<{
   filters?: InputMaybe<ProductFiltersInput>;
@@ -1025,6 +1025,15 @@ export type ProductGetListByIdQueryVariables = Exact<{
 
 
 export type ProductGetListByIdQuery = { product?: { data?: { attributes?: { name: string, price?: number | null, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null } | null } | null };
+
+export type ProductAttributesFragment = { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } };
+
+export type ProductsGetByCategoryNameQueryVariables = Exact<{
+  filters?: InputMaybe<CategoryFiltersInput>;
+}>;
+
+
+export type ProductsGetByCategoryNameQuery = { categories?: { data: Array<{ id?: string | null, attributes?: { name?: string | null, products?: { data: Array<{ attributes?: { name: string, price?: number | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null } | null }> } | null };
 
 export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1045,7 +1054,21 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
-
+export const ProductAttributesFragmentDoc = new TypedDocumentString(`
+    fragment ProductAttributes on Product {
+  name
+  price
+  slug
+  description
+  coverImage {
+    data {
+      attributes {
+        url
+      }
+    }
+  }
+}
+    `, {"fragmentName":"ProductAttributes"}) as unknown as TypedDocumentString<ProductAttributesFragment, unknown>;
 export const CategoriesGetListDocument = new TypedDocumentString(`
     query CategoriesGetList {
   categories {
@@ -1056,6 +1079,7 @@ export const CategoriesGetListDocument = new TypedDocumentString(`
         products {
           data {
             attributes {
+              slug
               name
               price
               coverImage {
@@ -1102,20 +1126,25 @@ export const ProductGetListByIdDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductGetListByIdQuery, ProductGetListByIdQueryVariables>;
-export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList {
-  products {
+export const ProductsGetByCategoryNameDocument = new TypedDocumentString(`
+    query ProductsGetByCategoryName($filters: CategoryFiltersInput) {
+  categories(filters: $filters) {
     data {
       id
       attributes {
         name
-        price
-        slug
-        description
-        coverImage {
+        products {
           data {
             attributes {
-              url
+              name
+              price
+              coverImage {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
             }
           }
         }
@@ -1123,4 +1152,28 @@ export const ProductsGetListDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+    `) as unknown as TypedDocumentString<ProductsGetByCategoryNameQuery, ProductsGetByCategoryNameQueryVariables>;
+export const ProductsGetListDocument = new TypedDocumentString(`
+    query ProductsGetList {
+  products {
+    data {
+      id
+      attributes {
+        ...ProductAttributes
+      }
+    }
+  }
+}
+    fragment ProductAttributes on Product {
+  name
+  price
+  slug
+  description
+  coverImage {
+    data {
+      attributes {
+        url
+      }
+    }
+  }
+}`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;

@@ -3,17 +3,7 @@ query ProductsGetList {
 		data {
 			id
 			attributes {
-				name
-				price
-				slug
-				description
-				coverImage {
-					data {
-						attributes {
-							url
-						}
-					}
-				}
+				...ProductAttributes
 			}
 		}
 	}

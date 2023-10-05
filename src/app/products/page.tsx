@@ -1,30 +1,14 @@
-import Link from "next/link";
-import Image from "next/image";
-import { executeGraphql } from "@/api/graphqlApi";
-import { ProductsGetListDocument } from "@/gql/graphql";
+import { ProductListItem } from "@/ui/molecules/ProductListItem";
+import { getProductsList } from "@/api/products";
 
 export default async function ProductsPage() {
-	const { products } = await executeGraphql(ProductsGetListDocument, {});
+	const products = await getProductsList();
 
 	return (
 		<h1>
-			<ul>
-				{products?.data.map((p) => {
-					return (
-						<li key={p.id}>
-							<Link href={`/product/${p.attributes?.slug}`}>
-								<p>{p.attributes?.name}</p>
-								<p>{p.attributes?.price}</p>
-								<p>{p.attributes?.description}</p>
-								<Image
-									src={p.attributes?.coverImage.data?.attributes?.url ?? ""}
-									alt={p.attributes?.name ?? ""}
-									width={80}
-									height={60}
-								/>
-							</Link>
-						</li>
-					);
+			<ul data-testid="products-list" className="grid grid-cols-4 gap-6">
+				{products?.data.map((product) => {
+					return <ProductListItem key={product.id} attributes={product.attributes} />;
 				})}
 			</ul>
 		</h1>

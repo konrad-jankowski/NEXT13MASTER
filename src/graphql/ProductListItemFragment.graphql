@@ -1,0 +1,13 @@
+fragment ProductAttributes on Product {
+	name
+	price
+	slug
+	description
+	coverImage {
+		data {
+			attributes {
+				url
+			}
+		}
+	}
+}

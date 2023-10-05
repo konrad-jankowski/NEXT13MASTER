@@ -1,5 +1,5 @@
-query CategoriesGetList {
-	categories {
+query ProductsGetByCategoryName($filters: CategoryFiltersInput) {
+	categories(filters: $filters) {
 		data {
 			id
 			attributes {
@@ -7,7 +7,6 @@ query CategoriesGetList {
 				products {
 					data {
 						attributes {
-							slug
 							name
 							price
 							coverImage {
