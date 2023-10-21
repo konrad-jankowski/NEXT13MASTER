@@ -1,0 +1,7 @@
+query GetCollectionSlugById($filters: CollectionFiltersInput) {
+	collections(filters: $filters) {
+		data {
+			id
+		}
+	}
+}

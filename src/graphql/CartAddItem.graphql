@@ -1,0 +1,21 @@
+mutation CartAddItem(
+	$orderId: ID!
+	$productId: ID!
+	$quantity: Int!
+	$total: Int!
+	$date: DateTime!
+) {
+	createOrderItem(
+		data: {
+			Quantity: $quantity
+			product: $productId
+			order: $orderId
+			Total: $total
+			publishedAt: $date
+		}
+	) {
+		data {
+			id
+		}
+	}
+}

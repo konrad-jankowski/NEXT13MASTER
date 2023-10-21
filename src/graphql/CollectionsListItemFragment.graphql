@@ -1,0 +1,20 @@
+fragment CollectionsListItem on CollectionEntity {
+	id
+	attributes {
+		name
+		slug
+		description
+		image {
+			data {
+				attributes {
+					url
+				}
+			}
+		}
+		products {
+			data {
+				...ProductsListItem
+			}
+		}
+	}
+}

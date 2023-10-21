@@ -1,10 +1,7 @@
 query ProductsGetList {
 	products {
 		data {
-			id
-			attributes {
-				...ProductAttributes
-			}
+			...ProductsListItem
 		}
 	}
 }

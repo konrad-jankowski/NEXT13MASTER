@@ -1,0 +1,7 @@
+query ProductsFilterListByName($filters: ProductFiltersInput) {
+	products(filters: $filters) {
+		data {
+			...ProductsListItem
+		}
+	}
+}

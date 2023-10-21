@@ -1,0 +1,7 @@
+query CollectionsGetListById($collectionId: ID) {
+	collection(id: $collectionId) {
+		data {
+			...CollectionsListItem
+		}
+	}
+}

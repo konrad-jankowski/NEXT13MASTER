@@ -1,0 +1,7 @@
+mutation CartCreate {
+	createOrder(data: { Total: 0, order_items: null }) {
+		data {
+			id
+		}
+	}
+}

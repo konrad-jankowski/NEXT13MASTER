@@ -1,6 +1,8 @@
 import { Heart, ShoppingCart, User2 } from "lucide-react";
+import Link from "next/link";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { Logo } from "../atoms/Logo";
+import { Search } from "../atoms/Search";
 
 const navLinks = [
 	{
@@ -13,11 +15,15 @@ const navLinks = [
 	},
 	{
 		label: "Shoes",
-		href: "/products/shoes",
+		href: "/categories/shoes",
 	},
 	{
 		label: "Skateboards",
-		href: "/products/skateboards",
+		href: "/categories/skateboards",
+	},
+	{
+		label: "Collections",
+		href: "/collections",
 	},
 ];
 
@@ -33,6 +39,9 @@ export const Navbar = () => {
 								<ActiveLink href={link.href}>{link.label}</ActiveLink>
 							</li>
 						))}
+						<li>
+							<Search />
+						</li>
 					</div>
 				</div>
 				<div className="flex items-center gap-4">
@@ -42,9 +51,9 @@ export const Navbar = () => {
 					<li>
 						<Heart size={22} />
 					</li>
-					<li>
+					<Link href="/cart">
 						<ShoppingCart size={22} />
-					</li>
+					</Link>
 				</div>
 			</ul>
 		</nav>

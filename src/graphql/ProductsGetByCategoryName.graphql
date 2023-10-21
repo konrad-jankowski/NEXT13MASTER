@@ -6,17 +6,7 @@ query ProductsGetByCategoryName($filters: CategoryFiltersInput) {
 				name
 				products {
 					data {
-						attributes {
-							name
-							price
-							coverImage {
-								data {
-									attributes {
-										url
-									}
-								}
-							}
-						}
+						...ProductsListItem
 					}
 				}
 			}

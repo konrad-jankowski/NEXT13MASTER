@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: ["naszsklep-api.vercel.app", "res.cloudinary.com"],
+		domains: ["res.cloudinary.com"],
 	},
 	typescript: { ignoreBuildErrors: true },
 
@@ -9,11 +9,17 @@ const nextConfig = {
 	experimental: {
 		typedRoutes: true,
 		mdxRs: true,
+		serverActions: true,
 	},
 	redirects: async () => {
 		return [
-			{ source: "/products/skateboards", destination: "/products/skateboards/1", permanent: false },
-			{ source: "/products/shoes", destination: "/products/shoes/1", permanent: false },
+			{
+				source: "/categories/skateboards",
+				destination: "/products/skateboards/1",
+				permanent: false,
+			},
+			{ source: "/categories/shoes", destination: "/products/shoes/1", permanent: false },
+			{ source: "/products", destination: "/products/1", permanent: false },
 		];
 	},
 };

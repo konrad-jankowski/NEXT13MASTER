@@ -1,14 +1,13 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
+	schema: "https://nextjs13mastersapi.onrender.com/graphql",
 	overwrite: true,
 	ignoreNoDocuments: true,
-	schema: "https://nextjs13mastersapi.onrender.com/graphql",
 	documents: "src/graphql/*.graphql",
 	generates: {
 		"src/gql/": {
 			preset: "client",
-			plugins: [],
 			presetConfig: {
 				fragmentMasking: false,
 			},

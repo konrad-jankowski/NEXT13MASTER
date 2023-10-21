@@ -1,17 +1,12 @@
-// import { ProductList } from "./ProductList";
-import { executeGraphql } from "@/api/graphqlApi";
-import { ProductsGetListDocument } from "@/gql/graphql";
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { ProductsList } from "./ProductsList";
+import { getProductsList } from "@/api/products";
 
 export const SuggestedProducts = async () => {
-	const { products } = await executeGraphql(ProductsGetListDocument, {});
-	await sleep(3000);
+	const products = await getProductsList();
 	return (
-		<ul>
-			{products?.data.map((p) => {
-				return <li key={p.id}>{p.attributes?.name}</li>;
-			})}
-		</ul>
+		<section className="mt-5">
+			<h2 className="my-4 font-medium">Sugerowane produkty</h2>
+			<ProductsList products={products?.slice(0, 4)} />
+		</section>
 	);
 };

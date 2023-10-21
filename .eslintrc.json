@@ -48,7 +48,14 @@
 				"message": "Please use next/navigation instead."
 			}
 		],
-
+		"@typescript-eslint/no-misused-promises": [
+			"error",
+			{
+				"checksVoidReturn": {
+					"attributes": false
+				}
+			}
+		],
 		"import/no-duplicates": ["error", { "prefer-inline": true }],
 
 		// false negatives
