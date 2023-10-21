@@ -2,19 +2,19 @@ import { type Metadata } from "next";
 import { Suspense } from "react";
 import { AddToCartButton } from "./AddToCartButton";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
-import { getProductsList, getSingleProductById } from "@/api/products";
+import { getSingleProductById } from "@/api/products";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
 import { CartAddItemDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
 import { getOrCreateCart } from "@/api/cart";
 
-export const generateStaticParams = async () => {
-	const products = await getProductsList();
-	return products?.map((product) => ({
-		productId: product.id,
-	}));
-};
+// export const generateStaticParams = async () => {
+// 	const products = await getProductsList();
+// 	return products?.map((product) => ({
+// 		productId: product.id,
+// 	}));
+// };
 
 export const generateMetadata = async ({
 	params,
