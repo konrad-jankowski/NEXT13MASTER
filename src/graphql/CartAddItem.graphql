@@ -16,6 +16,9 @@ mutation CartAddItem(
 	) {
 		data {
 			id
+			attributes {
+				Quantity
+			}
 		}
 	}
 }

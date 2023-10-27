@@ -6,7 +6,7 @@ import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { getSingleProductById } from "@/api/products";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
-import { addProductToCart, getOrCreateCart } from "@/api/cart";
+import { addProductToCart, getOrCreateCart, updateCartItems } from "@/api/cart";
 
 // export const generateStaticParams = async () => {
 // 	const products = await getProductsList();
@@ -45,6 +45,10 @@ export default async function SingleProductPage({ params }: { params: { productI
 		const cart = await getOrCreateCart();
 		await addProductToCart(cart.data?.id, params.productId);
 
+		/* if (response.orderedItemQuantity && response.orderedItemQuantity > 1) {
+			updateCartItems(response.orderedItemId, response.orderedItemQuantity);
+		}
+ */
 		revalidateTag("cart");
 	}
 

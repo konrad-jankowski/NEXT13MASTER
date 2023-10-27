@@ -1,7 +1,13 @@
 import { cookies } from "next/headers";
 import { executeGraphql } from "./graphqlApi";
 import { getSingleProductById } from "./products";
-import { CartAddItemDocument, CartCreateDocument, CartGetByIdDocument } from "@/gql/graphql";
+import {
+	CartAddItemDocument,
+	CartCreateDocument,
+	CartGetByIdDocument,
+	CartGetItemByIdDocument,
+	CartUpdateOrderItemDocument,
+} from "@/gql/graphql";
 
 export const getCartFromCookies = async () => {
 	const cartId = cookies().get("cartId")?.value;
@@ -47,7 +53,6 @@ export async function getOrCreateCart() {
 	return cart;
 }
 
-
 export async function addProductToCart(cartId: string, productId: string) {
 	const product = await getSingleProductById(productId);
 
@@ -55,14 +60,31 @@ export async function addProductToCart(cartId: string, productId: string) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
 
-	await executeGraphql({
+	const response = await executeGraphql({
 		query: CartAddItemDocument,
 		variables: {
 			date: new Date().toISOString(),
 			orderId: cartId,
-			productId: product.id,
+			productId: productId,
 			quantity: 1,
 			total: product.attributes?.price * 100,
+		},
+	});
+
+	const orderedItemId = response.createOrderItem?.data?.id;
+	const orderedItemQuantity = response.createOrderItem?.data?.attributes?.Quantity;
+
+	return {
+		orderedItemId,
+		orderedItemQuantity,
+	};
+}
+export async function updateCartItems(orderItemId: string, quantity: number) {
+	await executeGraphql({
+		query: CartUpdateOrderItemDocument,
+		variables: {
+			orderItemId: orderItemId,
+			quantity: quantity,
 		},
 	});
 }

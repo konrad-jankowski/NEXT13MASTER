@@ -1,0 +1,10 @@
+query CartGetItemById($orderItemId: ID) {
+	orderItem(id: $orderItemId) {
+		data {
+			attributes {
+				Quantity
+				Total
+			}
+		}
+	}
+}

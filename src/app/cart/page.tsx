@@ -2,11 +2,11 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { type Metadata } from "next";
-import { Trash2 } from "lucide-react";
 import { ChangeQuantity } from "./ChangeQuantity";
 import { executeGraphql } from "@/api/graphqlApi";
 import { CartGetByIdDocument } from "@/gql/graphql";
 import { formatMoney } from "@/utilis";
+import { RemoveButton } from "./RemoveButton";
 
 export const metadata: Metadata = {
 	title: "Shopping cart",
@@ -63,7 +63,7 @@ export default async function CartPage() {
 							</div>
 						</div>
 						<div className="flex flex-col justify-around">
-							<Trash2 size={18} />
+							<RemoveButton productId={item.id} />
 							<p>{formatMoney(item.attributes?.Total ?? 0)}</p>
 						</div>
 					</div>
