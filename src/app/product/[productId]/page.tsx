@@ -1,13 +1,12 @@
 import { type Metadata } from "next";
 import { Suspense } from "react";
+import { revalidateTag } from "next/cache";
 import { AddToCartButton } from "./AddToCartButton";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { getSingleProductById } from "@/api/products";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
-import { CartAddItemDocument } from "@/gql/graphql";
-import { executeGraphql } from "@/api/graphqlApi";
-import { getOrCreateCart } from "@/api/cart";
+import { addProductToCart, getOrCreateCart } from "@/api/cart";
 
 // export const generateStaticParams = async () => {
 // 	const products = await getProductsList();
@@ -29,26 +28,10 @@ export const generateMetadata = async ({
 		openGraph: {
 			title: `${product?.attributes?.name} - sklep internetowy`,
 			description: `${product?.attributes?.description}`,
-			images: [product?.attributes?.coverImage.data?.attributes?.url ?? ""],
+			images: [product?.attributes?.images.data.map((image) => image.attributes?.url)],
 		},
 	};
 };
-
-async function addProductToCart(cartId: string, productId: string) {
-	const product = await getSingleProductById(productId);
-
-	if (!product) {
-		throw new Error(`Product with id ${productId} not found`);
-	}
-
-	await executeGraphql(CartAddItemDocument, {
-		date: new Date().toISOString(),
-		orderId: cartId,
-		productId: product.id,
-		quantity: 1,
-		total: product.attributes?.price * 100,
-	});
-}
 
 export default async function SingleProductPage({ params }: { params: { productId: string } }) {
 	const product = await getSingleProductById(params.productId);
@@ -60,19 +43,17 @@ export default async function SingleProductPage({ params }: { params: { productI
 	async function addProductToCartAction(_FormData: FormData) {
 		"use server";
 		const cart = await getOrCreateCart();
-		console.log(cart.data);
-
 		await addProductToCart(cart.data?.id, params.productId);
 
-		console.log("Added product to cart");
+		revalidateTag("cart");
 	}
 
 	return (
 		<>
-			<article className="flex gap-16">
+			<article className="flex gap-16 px-10">
 				<div className="flex-1 ">
 					<ProductCoverImage
-						src={product?.attributes?.coverImage.data?.attributes?.url ?? ""}
+						src={product?.attributes?.images.data[0].attributes?.url ?? ""}
 						alt={product?.attributes?.name ?? ""}
 					/>
 				</div>
@@ -85,7 +66,7 @@ export default async function SingleProductPage({ params }: { params: { productI
 			</article>
 			<aside>
 				<Suspense fallback={"Loading..."}>
-					<SuggestedProducts />
+					<SuggestedProducts products={product.attributes?.usuallyBuyWith?.data} />
 				</Suspense>
 			</aside>
 		</>

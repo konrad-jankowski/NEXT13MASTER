@@ -9,9 +9,9 @@ export function AddToCartButton() {
 		<button
 			type="submit"
 			disabled={status.pending}
-			className="mt-4 w-full rounded-md border bg-slate-700 px-8 py-3 text-white disabled:cursor-wait disabled:bg-slate-400"
+			className="mt-4 w-full rounded-md border bg-black px-8 py-3 text-white transition duration-150 hover:bg-white hover:text-black disabled:cursor-wait disabled:bg-black/70"
 		>
-			Add to cart
+			{status.pending ? "Dodawanie do koszyka..." : "Dodaj do koszyka"}
 		</button>
 	);
 }

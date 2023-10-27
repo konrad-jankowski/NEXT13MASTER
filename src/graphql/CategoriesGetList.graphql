@@ -10,7 +10,7 @@ query CategoriesGetList {
 							slug
 							name
 							price
-							coverImage {
+							images {
 								data {
 									attributes {
 										url

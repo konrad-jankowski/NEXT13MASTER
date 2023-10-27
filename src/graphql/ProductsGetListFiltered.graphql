@@ -1,4 +1,4 @@
-query ProductsFilterListByName($filters: ProductFiltersInput) {
+query ProductsGetListFiltered($filters: ProductFiltersInput) {
 	products(filters: $filters) {
 		data {
 			...ProductsListItem

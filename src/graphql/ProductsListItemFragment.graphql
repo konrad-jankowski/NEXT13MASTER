@@ -1,16 +1,34 @@
 fragment ProductsListItem on ProductEntity {
 	id
-	attributes{
+	attributes {
+		usuallyBuyWith {
+			data {
+				id
+				attributes {
+					slug
+					price
+					descriptionShort
+					images {
+						data {
+							attributes {
+								url
+							}
+						}
+					}
+				}
+			}
+		}
 		name
 		price
 		slug
 		description
-		coverImage {
-		data {
-			attributes {
-				url
+		descriptionShort
+		images {
+			data {
+				attributes {
+					url
+				}
 			}
 		}
-	}
 	}
 }

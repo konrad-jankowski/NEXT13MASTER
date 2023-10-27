@@ -1,16 +1,17 @@
-import { Heart, ShoppingCart, User2 } from "lucide-react";
+import { Heart, ShoppingCart, User2, Search as SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { Logo } from "../atoms/Logo";
 import { Search } from "../atoms/Search";
+import { getCartFromCookies } from "@/api/cart";
 
 const navLinks = [
 	{
-		label: "Home",
+		label: "Strona główna",
 		href: "/",
 	},
 	{
-		label: "All",
+		label: "Produkty",
 		href: "/products",
 	},
 	{
@@ -27,10 +28,12 @@ const navLinks = [
 	},
 ];
 
-export const Navbar = () => {
+export const Navbar = async () => {
+	const cart = await getCartFromCookies();
+	const quantity = cart?.data?.attributes?.order_items?.data.length ?? 0;
 	return (
-		<nav className="bg-black py-4 text-white">
-			<ul className="flex h-10 items-center justify-around gap-8">
+		<nav className="sticky z-20 mb-10 h-28 w-full items-center border-b border-black/40 bg-white text-black hover:bg-white hover:text-black">
+			<ul className="flex h-28 items-center justify-between gap-12 px-14">
 				<div className="flex ">
 					<Logo />
 					<div className="flex items-center gap-4">
@@ -46,13 +49,16 @@ export const Navbar = () => {
 				</div>
 				<div className="flex items-center gap-4">
 					<li>
-						<User2 size={22} />
+						<SearchIcon size={22} className="cursor-pointer" />
 					</li>
 					<li>
-						<Heart size={22} />
+						<User2 size={22} className="cursor-pointer" />
 					</li>
-					<Link href="/cart">
-						<ShoppingCart size={22} />
+					<li>
+						<Heart size={22} className="cursor-pointer" />
+					</li>
+					<Link href="/cart" className="inline-flex gap-2">
+						<ShoppingCart size={22} /> {quantity}
 					</Link>
 				</div>
 			</ul>

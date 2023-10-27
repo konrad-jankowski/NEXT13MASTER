@@ -5,20 +5,20 @@ import { formatMoney } from "@/utilis";
 
 export const ProductsListItem = ({ product }: { product: ProductsListItemFragment }) => {
 	return (
-		<li>
+		<li className="w-72">
 			<div key={product?.attributes?.name}>
-				<div className="rounded-md bg-red-50 p-2">
+				<div className="relative  h-80 w-full overflow-hidden rounded-md">
 					<Link href={`/product/${product?.attributes?.slug}`}>
 						<Image
-							src={product?.attributes?.coverImage?.data?.attributes?.url ?? ""}
+							src={product?.attributes?.images.data[0].attributes?.url ?? ""}
 							alt={product?.attributes?.name ?? ""}
-							width={220}
-							height={220}
+							fill
 						/>
 					</Link>
 				</div>
-				<h2 className="text-center">{product?.attributes?.name}</h2>
-				<h2 className="text-center font-medium">{formatMoney(product?.attributes?.price ?? 0)}</h2>
+				<h2 className="mt-3 text-center font-medium">{product?.attributes?.name}</h2>
+				<h3 className="py-1 text-center text-xs">{product?.attributes?.descriptionShort}</h3>
+				<h4 className="text-center font-medium">{formatMoney(product?.attributes?.price ?? 0)}</h4>
 			</div>
 		</li>
 	);

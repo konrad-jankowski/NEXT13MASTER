@@ -207,7 +207,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type GenericMorph = Category | Collection | I18NLocale | Order | OrderItem | Product | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Category | Collection | I18NLocale | Order | OrderItem | Product | Review | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   code?: Maybe<Scalars['String']['output']>;
@@ -324,6 +324,7 @@ export type Mutation = {
   createOrder?: Maybe<OrderEntityResponse>;
   createOrderItem?: Maybe<OrderItemEntityResponse>;
   createProduct?: Maybe<ProductEntityResponse>;
+  createReview?: Maybe<ReviewEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
   createUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Create a new role */
@@ -335,6 +336,7 @@ export type Mutation = {
   deleteOrder?: Maybe<OrderEntityResponse>;
   deleteOrderItem?: Maybe<OrderItemEntityResponse>;
   deleteProduct?: Maybe<ProductEntityResponse>;
+  deleteReview?: Maybe<ReviewEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Delete an existing role */
@@ -358,6 +360,7 @@ export type Mutation = {
   updateOrder?: Maybe<OrderEntityResponse>;
   updateOrderItem?: Maybe<OrderItemEntityResponse>;
   updateProduct?: Maybe<ProductEntityResponse>;
+  updateReview?: Maybe<ReviewEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
   updateUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Update an existing role */
@@ -397,6 +400,11 @@ export type MutationCreateOrderItemArgs = {
 
 export type MutationCreateProductArgs = {
   data: ProductInput;
+};
+
+
+export type MutationCreateReviewArgs = {
+  data: ReviewInput;
 };
 
 
@@ -441,6 +449,11 @@ export type MutationDeleteOrderItemArgs = {
 
 
 export type MutationDeleteProductArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteReviewArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -537,6 +550,12 @@ export type MutationUpdateOrderItemArgs = {
 
 export type MutationUpdateProductArgs = {
   data: ProductInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateReviewArgs = {
+  data: ReviewInput;
   id: Scalars['ID']['input'];
 };
 
@@ -692,14 +711,34 @@ export type PaginationArg = {
 };
 
 export type Product = {
-  coverImage: UploadFileEntityResponse;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  descriptionShort: Scalars['String']['output'];
+  discount?: Maybe<Scalars['Float']['output']>;
+  images: UploadFileRelationResponseCollection;
+  isBestseller?: Maybe<Scalars['Boolean']['output']>;
+  isNew?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
   price?: Maybe<Scalars['Float']['output']>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   slug: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  usuallyBuyWith?: Maybe<ProductRelationResponseCollection>;
+};
+
+
+export type ProductImagesArgs = {
+  filters?: InputMaybe<UploadFileFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
+export type ProductUsuallyBuyWithArgs = {
+  filters?: InputMaybe<ProductFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type ProductEntity = {
@@ -720,7 +759,11 @@ export type ProductFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
+  descriptionShort?: InputMaybe<StringFilterInput>;
+  discount?: InputMaybe<FloatFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isBestseller?: InputMaybe<BooleanFilterInput>;
+  isNew?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ProductFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
@@ -728,15 +771,21 @@ export type ProductFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   slug?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  usuallyBuyWith?: InputMaybe<ProductFiltersInput>;
 };
 
 export type ProductInput = {
-  coverImage?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  descriptionShort?: InputMaybe<Scalars['String']['input']>;
+  discount?: InputMaybe<Scalars['Float']['input']>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  isBestseller?: InputMaybe<Scalars['Boolean']['input']>;
+  isNew?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
+  usuallyBuyWith?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
 };
 
 export type ProductRelationResponseCollection = {
@@ -761,6 +810,8 @@ export type Query = {
   orders?: Maybe<OrderEntityResponseCollection>;
   product?: Maybe<ProductEntityResponse>;
   products?: Maybe<ProductEntityResponseCollection>;
+  review?: Maybe<ReviewEntityResponse>;
+  reviews?: Maybe<ReviewEntityResponseCollection>;
   uploadFile?: Maybe<UploadFileEntityResponse>;
   uploadFiles?: Maybe<UploadFileEntityResponseCollection>;
   uploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -849,6 +900,19 @@ export type QueryProductsArgs = {
 };
 
 
+export type QueryReviewArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryReviewsArgs = {
+  filters?: InputMaybe<ReviewFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
 export type QueryUploadFileArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -898,6 +962,55 @@ export type QueryUsersPermissionsUsersArgs = {
 
 export type ResponseCollectionMeta = {
   pagination: Pagination;
+};
+
+export type Review = {
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  headline?: Maybe<Scalars['String']['output']>;
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  ratings?: Maybe<Scalars['Int']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  userName?: Maybe<Scalars['String']['output']>;
+};
+
+export type ReviewEntity = {
+  attributes?: Maybe<Review>;
+  id?: Maybe<Scalars['ID']['output']>;
+};
+
+export type ReviewEntityResponse = {
+  data?: Maybe<ReviewEntity>;
+};
+
+export type ReviewEntityResponseCollection = {
+  data: Array<ReviewEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ReviewFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ReviewFiltersInput>>>;
+  content?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  email?: InputMaybe<StringFilterInput>;
+  headline?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<ReviewFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ReviewFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  ratings?: InputMaybe<IntFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  userName?: InputMaybe<StringFilterInput>;
+};
+
+export type ReviewInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  headline?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  ratings?: InputMaybe<Scalars['Int']['input']>;
+  userName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type StringFilterInput = {
@@ -1290,7 +1403,7 @@ export type CartGetByIdQueryVariables = Exact<{
 }>;
 
 
-export type CartGetByIdQuery = { order?: { data?: { id?: string | null, attributes?: { Total?: number | null, order_items?: { data: Array<{ id?: string | null, attributes?: { Quantity: number, Total: number, product?: { data?: { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null } | null } | null } | null }> } | null } | null } | null } | null };
+export type CartGetByIdQuery = { order?: { data?: { id?: string | null, attributes?: { Total?: number | null, order_items?: { data: Array<{ id?: string | null, attributes?: { Quantity: number, Total: number, product?: { data?: { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null } | null } | null } | null }> } | null } | null } | null } | null };
 
 export type CartOrderFragment = { id?: string | null };
 
@@ -1305,21 +1418,21 @@ export type CartSetItemQuantityMutation = { updateOrderItem?: { data?: { id?: st
 export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CategoriesGetListQuery = { categories?: { data: Array<{ id?: string | null, attributes?: { name?: string | null, products?: { data: Array<{ attributes?: { slug: string, name: string, price?: number | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null } | null }> } | null };
+export type CategoriesGetListQuery = { categories?: { data: Array<{ id?: string | null, attributes?: { name?: string | null, products?: { data: Array<{ attributes?: { slug: string, name: string, price?: number | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null }> } | null };
 
 export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CollectionsGetListQuery = { collections?: { data: Array<{ id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null } | null }> } | null };
+export type CollectionsGetListQuery = { collections?: { data: Array<{ id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null }> } | null };
 
 export type CollectionsGetListByIdQueryVariables = Exact<{
   collectionId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type CollectionsGetListByIdQuery = { collection?: { data?: { id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null } | null } | null } | null };
+export type CollectionsGetListByIdQuery = { collection?: { data?: { id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null } | null } | null };
 
-export type CollectionsListItemFragment = { id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null } | null };
+export type CollectionsListItemFragment = { id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null };
 
 export type GetCollectionSlugByIdQueryVariables = Exact<{
   filters?: InputMaybe<CollectionFiltersInput>;
@@ -1340,35 +1453,28 @@ export type ProductGetListByIdQueryVariables = Exact<{
 }>;
 
 
-export type ProductGetListByIdQuery = { product?: { data?: { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null } | null } | null };
-
-export type ProductsFilterListByNameQueryVariables = Exact<{
-  filters?: InputMaybe<ProductFiltersInput>;
-}>;
-
-
-export type ProductsFilterListByNameQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null };
-
-export type ProductsGetByCategoryNameQueryVariables = Exact<{
-  filters?: InputMaybe<CategoryFiltersInput>;
-}>;
-
-
-export type ProductsGetByCategoryNameQuery = { categories?: { data: Array<{ id?: string | null, attributes?: { name?: string | null, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null } | null }> } | null };
+export type ProductGetListByIdQuery = { product?: { data?: { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, name: string, description?: string | null, images: { data: Array<{ attributes?: { url: string } | null }> }, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null } | null } | null };
 
 export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsGetListQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null };
+export type ProductsGetListQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
+
+export type ProductsGetListFilteredQueryVariables = Exact<{
+  filters?: InputMaybe<ProductFiltersInput>;
+}>;
+
+
+export type ProductsGetListFilteredQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
 
 export type ProductsGetListWithPaginationQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
 }>;
 
 
-export type ProductsGetListWithPaginationQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null }> } | null };
+export type ProductsGetListWithPaginationQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
 
-export type ProductsListItemFragment = { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, coverImage: { data?: { attributes?: { url: string } | null } | null } } | null };
+export type ProductsListItemFragment = { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -1393,11 +1499,29 @@ export const ProductsListItemFragmentDoc = new TypedDocumentString(`
     fragment ProductsListItem on ProductEntity {
   id
   attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
     name
     price
     slug
     description
-    coverImage {
+    descriptionShort
+    images {
       data {
         attributes {
           url
@@ -1431,11 +1555,29 @@ export const CollectionsListItemFragmentDoc = new TypedDocumentString(`
     fragment ProductsListItem on ProductEntity {
   id
   attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
     name
     price
     slug
     description
-    coverImage {
+    descriptionShort
+    images {
       data {
         attributes {
           url
@@ -1492,11 +1634,29 @@ export const CartGetByIdDocument = new TypedDocumentString(`
     fragment ProductsListItem on ProductEntity {
   id
   attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
     name
     price
     slug
     description
-    coverImage {
+    descriptionShort
+    images {
       data {
         attributes {
           url
@@ -1527,7 +1687,7 @@ export const CategoriesGetListDocument = new TypedDocumentString(`
               slug
               name
               price
-              coverImage {
+              images {
                 data {
                   attributes {
                     url
@@ -1573,11 +1733,29 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
 fragment ProductsListItem on ProductEntity {
   id
   attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
     name
     price
     slug
     description
-    coverImage {
+    descriptionShort
+    images {
       data {
         attributes {
           url
@@ -1617,11 +1795,29 @@ export const CollectionsGetListByIdDocument = new TypedDocumentString(`
 fragment ProductsListItem on ProductEntity {
   id
   attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
     name
     price
     slug
     description
-    coverImage {
+    descriptionShort
+    images {
       data {
         attributes {
           url
@@ -1652,6 +1848,13 @@ export const ProductGetListByIdDocument = new TypedDocumentString(`
     query ProductGetListById($productId: ID) {
   product(id: $productId) {
     data {
+      attributes {
+        usuallyBuyWith {
+          data {
+            ...ProductsListItem
+          }
+        }
+      }
       ...ProductsListItem
     }
   }
@@ -1659,11 +1862,29 @@ export const ProductGetListByIdDocument = new TypedDocumentString(`
     fragment ProductsListItem on ProductEntity {
   id
   attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
     name
     price
     slug
     description
-    coverImage {
+    descriptionShort
+    images {
       data {
         attributes {
           url
@@ -1672,62 +1893,6 @@ export const ProductGetListByIdDocument = new TypedDocumentString(`
     }
   }
 }`) as unknown as TypedDocumentString<ProductGetListByIdQuery, ProductGetListByIdQueryVariables>;
-export const ProductsFilterListByNameDocument = new TypedDocumentString(`
-    query ProductsFilterListByName($filters: ProductFiltersInput) {
-  products(filters: $filters) {
-    data {
-      ...ProductsListItem
-    }
-  }
-}
-    fragment ProductsListItem on ProductEntity {
-  id
-  attributes {
-    name
-    price
-    slug
-    description
-    coverImage {
-      data {
-        attributes {
-          url
-        }
-      }
-    }
-  }
-}`) as unknown as TypedDocumentString<ProductsFilterListByNameQuery, ProductsFilterListByNameQueryVariables>;
-export const ProductsGetByCategoryNameDocument = new TypedDocumentString(`
-    query ProductsGetByCategoryName($filters: CategoryFiltersInput) {
-  categories(filters: $filters) {
-    data {
-      id
-      attributes {
-        name
-        products {
-          data {
-            ...ProductsListItem
-          }
-        }
-      }
-    }
-  }
-}
-    fragment ProductsListItem on ProductEntity {
-  id
-  attributes {
-    name
-    price
-    slug
-    description
-    coverImage {
-      data {
-        attributes {
-          url
-        }
-      }
-    }
-  }
-}`) as unknown as TypedDocumentString<ProductsGetByCategoryNameQuery, ProductsGetByCategoryNameQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
     query ProductsGetList {
   products {
@@ -1739,11 +1904,29 @@ export const ProductsGetListDocument = new TypedDocumentString(`
     fragment ProductsListItem on ProductEntity {
   id
   attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
     name
     price
     slug
     description
-    coverImage {
+    descriptionShort
+    images {
       data {
         attributes {
           url
@@ -1752,6 +1935,48 @@ export const ProductsGetListDocument = new TypedDocumentString(`
     }
   }
 }`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+export const ProductsGetListFilteredDocument = new TypedDocumentString(`
+    query ProductsGetListFiltered($filters: ProductFiltersInput) {
+  products(filters: $filters) {
+    data {
+      ...ProductsListItem
+    }
+  }
+}
+    fragment ProductsListItem on ProductEntity {
+  id
+  attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+    name
+    price
+    slug
+    description
+    descriptionShort
+    images {
+      data {
+        attributes {
+          url
+        }
+      }
+    }
+  }
+}`) as unknown as TypedDocumentString<ProductsGetListFilteredQuery, ProductsGetListFilteredQueryVariables>;
 export const ProductsGetListWithPaginationDocument = new TypedDocumentString(`
     query ProductsGetListWithPagination($pagination: PaginationArg) {
   products(pagination: $pagination) {
@@ -1763,11 +1988,29 @@ export const ProductsGetListWithPaginationDocument = new TypedDocumentString(`
     fragment ProductsListItem on ProductEntity {
   id
   attributes {
+    usuallyBuyWith {
+      data {
+        id
+        attributes {
+          slug
+          price
+          descriptionShort
+          images {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
     name
     price
     slug
     description
-    coverImage {
+    descriptionShort
+    images {
       data {
         attributes {
           url

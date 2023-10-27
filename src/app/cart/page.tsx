@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { type Metadata } from "next";
+import { Trash2 } from "lucide-react";
 import { ChangeQuantity } from "./ChangeQuantity";
 import { executeGraphql } from "@/api/graphqlApi";
 import { CartGetByIdDocument } from "@/gql/graphql";
@@ -19,59 +20,55 @@ export default async function CartPage() {
 		redirect("/");
 	}
 
-	const { order: cart } = await executeGraphql(CartGetByIdDocument, {
-		orderId: cartId,
+	const { order: cart } = await executeGraphql({
+		query: CartGetByIdDocument,
+		variables: {
+			orderId: cartId,
+		},
+		next: {
+			tags: ["cart"],
+		},
 	});
 
 	if (!cart) {
 		redirect("/");
 	}
 
+	// const quantity = cart.data?.attributes?.order_items?.data.length ?? 0;
+
 	return (
-		<div className="">
-			<h1 className="text-lg font-medium">Your basket</h1>
-			<h2>Order #{cart.data?.id} summary</h2>
-			<table className="mt-4 table-fixed">
-				<thead>
-					<tr>
-						<th>Product</th>
-						<th className="px-4">Quantity</th>
-						<th>Price</th>
-					</tr>
-				</thead>
-				<tbody>
-					{cart.data?.attributes?.order_items?.data.map((item) => {
-						if (!item.attributes?.product) {
-							return null;
-						}
-						return (
-							<tr key={item.attributes.product.data?.id}>
-								<td>
-									<h2>{item.attributes.product.data?.attributes?.name}</h2>
-									<Image
-										width={80}
-										height={80}
-										src={
-											item.attributes.product.data?.attributes?.coverImage.data?.attributes?.url ??
-											""
-										}
-										alt={item.attributes.product.data?.attributes?.name ?? ""}
-									/>
-								</td>
-								<td className="px-4">
-									<ChangeQuantity
-										key={item.attributes.product.data?.id}
-										itemId={item.id}
-										quantity={item.attributes.Quantity}
-									/>
-								</td>
-								<td>{formatMoney(item.attributes.product.data?.attributes?.price ?? 0)}</td>
-							</tr>
-						);
-					})}
-				</tbody>
-			</table>
-			<h3 className="mt-4">Total: {formatMoney(cart.data?.attributes?.Total ?? 0)}</h3>
+		<div className="bg-gray-100 p-12">
+			<div className="bg-white p-10">
+				{/* <h1 className="text-lg font-medium">Koszyk ({quantity})</h1> */}
+				<p>Kup za 179,02 zł więcej i otrzymaj darmową wysyłkę</p>
+				{cart.data?.attributes?.order_items?.data.map((item) => (
+					<div key={item.id} className="my-2 flex justify-between">
+						<div className="flex gap-6">
+							<Image
+								src={
+									item.attributes?.product?.data?.attributes?.images.data[0].attributes?.url ?? ""
+								}
+								alt=""
+								width={100}
+								height={100}
+							/>
+							<div className="flex flex-col justify-between py-3">
+								<h2 className="font-medium">{item.attributes?.product?.data?.attributes?.name}</h2>
+								<p>{item.attributes?.Quantity} x</p>
+								<ChangeQuantity
+									key={item.id}
+									itemId={item.id}
+									quantity={item.attributes?.Quantity ?? 0}
+								/>
+							</div>
+						</div>
+						<div className="flex flex-col justify-around">
+							<Trash2 size={18} />
+							<p>{formatMoney(item.attributes?.Total ?? 0)}</p>
+						</div>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }

@@ -10,7 +10,7 @@ export const ActiveLink = ({ href, children }: { href: Route; children: ReactNod
 	const pathname = usePathname();
 	const isActive = pathname === href;
 	return (
-		<Link href={href} className={clsx(`text-white hover:text-white/70`, isActive && `underline`)}>
+		<Link href={href} className={clsx(` hover:text-black/70`, isActive && `underline`)}>
 			{children}
 		</Link>
 	);
