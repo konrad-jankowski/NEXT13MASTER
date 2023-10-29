@@ -21,6 +21,9 @@ fragment ProductsListItem on ProductEntity {
 		name
 		price
 		slug
+		isBestseller
+		isNew
+		discount
 		description
 		descriptionShort
 		images {

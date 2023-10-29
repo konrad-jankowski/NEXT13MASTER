@@ -5,7 +5,6 @@ import {
 	CartAddItemDocument,
 	CartCreateDocument,
 	CartGetByIdDocument,
-	CartGetItemByIdDocument,
 	CartUpdateOrderItemDocument,
 } from "@/gql/graphql";
 
@@ -55,36 +54,47 @@ export async function getOrCreateCart() {
 
 export async function addProductToCart(cartId: string, productId: string) {
 	const product = await getSingleProductById(productId);
+	const cart = await getCartFromCookies();
+	const isProductInCart = cart?.data?.attributes?.order_items?.data.some(
+		(item) => item.attributes?.product?.data?.attributes?.slug === productId,
+	);
+	const productInCart = cart?.data?.attributes?.order_items?.data.find(
+		(item) => item.attributes?.product?.data?.attributes?.slug === productId,
+	);
 
 	if (!product) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
 
-	const response = await executeGraphql({
-		query: CartAddItemDocument,
-		variables: {
-			date: new Date().toISOString(),
-			orderId: cartId,
-			productId: productId,
-			quantity: 1,
-			total: product.attributes?.price * 100,
-		},
-	});
-
-	const orderedItemId = response.createOrderItem?.data?.id;
-	const orderedItemQuantity = response.createOrderItem?.data?.attributes?.Quantity;
-
-	return {
-		orderedItemId,
-		orderedItemQuantity,
-	};
+	if (isProductInCart && productInCart?.id && productInCart?.attributes?.Quantity) {
+		await updateCartItems(
+			productInCart?.id,
+			productInCart?.attributes?.Quantity + 1,
+			productInCart?.attributes?.Quantity *
+				productInCart.attributes.product?.data?.attributes?.price +
+				productInCart.attributes.product?.data?.attributes?.price,
+		);
+	} else {
+		console.log("Produkt nie jest w koszyku");
+		await executeGraphql({
+			query: CartAddItemDocument,
+			variables: {
+				date: new Date().toISOString(),
+				orderId: cartId,
+				productId: product.id,
+				quantity: 1,
+				total: product.attributes?.price * 100,
+			},
+		});
+	}
 }
-export async function updateCartItems(orderItemId: string, quantity: number) {
+export async function updateCartItems(orderItemId: string, quantity: number, total: number) {
 	await executeGraphql({
 		query: CartUpdateOrderItemDocument,
 		variables: {
 			orderItemId: orderItemId,
 			quantity: quantity,
+			total: total,
 		},
 	});
 }

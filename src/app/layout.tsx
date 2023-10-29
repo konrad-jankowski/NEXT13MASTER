@@ -14,9 +14,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="pl">
 			<body className={inter.className}>
-				<Navbar />
-				<section className="pb-10">{children}</section>
-				<footer className="mt-6 text-center text-xl">@ 2023</footer>
+				<div className="flex flex-col">
+					<Navbar />
+					<section className="flex-shrink  pb-10">{children}</section>
+					<footer className="mt-6 text-center text-xl">@ 2023</footer>
+				</div>
 			</body>
 		</html>
 	);

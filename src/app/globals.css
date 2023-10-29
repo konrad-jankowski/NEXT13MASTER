@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* swiper custom styles */
+
+.swiper-button-prev {
+	background-color: white !important;
+	color: black !important;
+	width: 70px !important;
+	height: 70px !important;
+	border-radius: 10px !important;
+}
+.swiper-button-prev:hover {
+	background-color: rgba(255, 255, 255, 0.7) !important;
+}
+.swiper-button-next {
+	background-color: white !important;
+	color: black !important;
+	width: 70px !important;
+	height: 70px !important;
+	border-radius: 10px !important;
+}
+.swiper-button-next:hover {
+	background-color: rgba(255, 255, 255, 0.7) !important;
+}
+.swiper-button-disabled {
+	opacity: 0 !important;
+	visibility: hidden !important;
+	transition: all linear 0.3s;
+}

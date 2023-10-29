@@ -3,10 +3,10 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import { type Metadata } from "next";
 import { ChangeQuantity } from "./ChangeQuantity";
+import { RemoveButton } from "./RemoveButton";
 import { executeGraphql } from "@/api/graphqlApi";
 import { CartGetByIdDocument } from "@/gql/graphql";
 import { formatMoney } from "@/utilis";
-import { RemoveButton } from "./RemoveButton";
 
 export const metadata: Metadata = {
 	title: "Shopping cart",
@@ -34,16 +34,17 @@ export default async function CartPage() {
 		redirect("/");
 	}
 
-	// const quantity = cart.data?.attributes?.order_items?.data.length ?? 0;
+	const quantity = cart.data?.attributes?.order_items?.data.length ?? 0;
 
 	return (
-		<div className="bg-gray-100 p-12">
-			<div className="bg-white p-10">
-				{/* <h1 className="text-lg font-medium">Koszyk ({quantity})</h1> */}
+		<div className="mt-[7rem] flex  gap-6 bg-gray-100 p-12">
+			<div className="h-fit basis-[70%] bg-white p-10">
+				<h1 className="mb-3 text-lg font-medium">Koszyk ({quantity})</h1>
 				<p>Kup za 179,02 zł więcej i otrzymaj darmową wysyłkę</p>
 				{cart.data?.attributes?.order_items?.data.map((item) => (
 					<div key={item.id} className="my-2 flex justify-between">
 						<div className="flex gap-6">
+							{" "}
 							<Image
 								src={
 									item.attributes?.product?.data?.attributes?.images.data[0].attributes?.url ?? ""
@@ -68,6 +69,25 @@ export default async function CartPage() {
 						</div>
 					</div>
 				))}
+			</div>
+			<div className="flex basis-[30%] flex-col gap-2 bg-white px-6 pb-5 pt-3">
+				<h2 className="border-b border-black/20 pb-5 font-medium">Podsumowanie</h2>
+				<div className="mt-4 flex justify-between font-medium">
+					<h3>Oszczędzasz</h3>
+					<p className="">0,00 zł</p>
+				</div>
+				<div className="flex justify-between font-medium">
+					<h3>Wysyłka</h3>
+					<p className="text-gray-500">Obliczona w kolejnym kroku</p>
+				</div>
+				<p className="mb-5 text-sm text-black/80">
+					Kartę upominkową lub rabat możesz aktywować później
+				</p>
+				<div className="mb-2 flex justify-between border-t border-black/20 pt-5 font-medium">
+					<h3>Razem</h3>
+					<p>179,97</p>
+				</div>
+				<button className="rounded-md bg-black px-8 py-2 uppercase text-white">idź do kasy</button>
 			</div>
 		</div>
 	);

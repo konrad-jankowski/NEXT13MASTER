@@ -1403,7 +1403,7 @@ export type CartGetByIdQueryVariables = Exact<{
 }>;
 
 
-export type CartGetByIdQuery = { order?: { data?: { id?: string | null, attributes?: { Total?: number | null, order_items?: { data: Array<{ id?: string | null, attributes?: { Quantity: number, Total: number, product?: { data?: { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null } | null } | null } | null }> } | null } | null } | null } | null };
+export type CartGetByIdQuery = { order?: { data?: { id?: string | null, attributes?: { Total?: number | null, order_items?: { data: Array<{ id?: string | null, attributes?: { Quantity: number, Total: number, product?: { data?: { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null } | null } | null } | null }> } | null } | null } | null } | null };
 
 export type CartGetItemByIdQueryVariables = Exact<{
   orderItemId?: InputMaybe<Scalars['ID']['input']>;
@@ -1432,10 +1432,11 @@ export type CartSetItemQuantityMutation = { updateOrderItem?: { data?: { id?: st
 export type CartUpdateOrderItemMutationVariables = Exact<{
   orderItemId: Scalars['ID']['input'];
   quantity: Scalars['Int']['input'];
+  total: Scalars['Int']['input'];
 }>;
 
 
-export type CartUpdateOrderItemMutation = { updateOrderItem?: { data?: { id?: string | null, attributes?: { Quantity: number } | null } | null } | null };
+export type CartUpdateOrderItemMutation = { updateOrderItem?: { data?: { id?: string | null } | null } | null };
 
 export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1445,16 +1446,16 @@ export type CategoriesGetListQuery = { categories?: { data: Array<{ id?: string 
 export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CollectionsGetListQuery = { collections?: { data: Array<{ id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null }> } | null };
+export type CollectionsGetListQuery = { collections?: { data: Array<{ id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null }> } | null };
 
 export type CollectionsGetListByIdQueryVariables = Exact<{
   collectionId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type CollectionsGetListByIdQuery = { collection?: { data?: { id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null } | null } | null };
+export type CollectionsGetListByIdQuery = { collection?: { data?: { id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null } | null } | null };
 
-export type CollectionsListItemFragment = { id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null };
+export type CollectionsListItemFragment = { id?: string | null, attributes?: { name: string, slug: string, description: string, image: { data?: { attributes?: { url: string } | null } | null }, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null };
 
 export type GetCollectionSlugByIdQueryVariables = Exact<{
   filters?: InputMaybe<CollectionFiltersInput>;
@@ -1475,28 +1476,28 @@ export type ProductGetListByIdQueryVariables = Exact<{
 }>;
 
 
-export type ProductGetListByIdQuery = { product?: { data?: { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, name: string, description?: string | null, images: { data: Array<{ attributes?: { url: string } | null }> }, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null } | null } | null };
+export type ProductGetListByIdQuery = { product?: { data?: { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, name: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, images: { data: Array<{ attributes?: { url: string } | null }> }, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null } | null } | null };
 
 export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsGetListQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
+export type ProductsGetListQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
 
 export type ProductsGetListFilteredQueryVariables = Exact<{
   filters?: InputMaybe<ProductFiltersInput>;
 }>;
 
 
-export type ProductsGetListFilteredQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
+export type ProductsGetListFilteredQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
 
 export type ProductsGetListWithPaginationQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
 }>;
 
 
-export type ProductsGetListWithPaginationQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
+export type ProductsGetListWithPaginationQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null };
 
-export type ProductsListItemFragment = { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null };
+export type ProductsListItemFragment = { id?: string | null, attributes?: { name: string, price?: number | null, slug: string, isBestseller?: boolean | null, isNew?: boolean | null, discount?: number | null, description?: string | null, descriptionShort: string, usuallyBuyWith?: { data: Array<{ id?: string | null, attributes?: { slug: string, price?: number | null, descriptionShort: string, images: { data: Array<{ attributes?: { url: string } | null }> } } | null }> } | null, images: { data: Array<{ attributes?: { url: string } | null }> } } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -1541,6 +1542,9 @@ export const ProductsListItemFragmentDoc = new TypedDocumentString(`
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {
@@ -1597,6 +1601,9 @@ export const CollectionsListItemFragmentDoc = new TypedDocumentString(`
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {
@@ -1679,6 +1686,9 @@ export const CartGetByIdDocument = new TypedDocumentString(`
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {
@@ -1721,13 +1731,10 @@ export const CartSetItemQuantityDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<CartSetItemQuantityMutation, CartSetItemQuantityMutationVariables>;
 export const CartUpdateOrderItemDocument = new TypedDocumentString(`
-    mutation CartUpdateOrderItem($orderItemId: ID!, $quantity: Int!) {
-  updateOrderItem(id: $orderItemId, data: {Quantity: $quantity}) {
+    mutation CartUpdateOrderItem($orderItemId: ID!, $quantity: Int!, $total: Int!) {
+  updateOrderItem(id: $orderItemId, data: {Quantity: $quantity, Total: $total}) {
     data {
       id
-      attributes {
-        Quantity
-      }
     }
   }
 }
@@ -1811,6 +1818,9 @@ fragment ProductsListItem on ProductEntity {
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {
@@ -1873,6 +1883,9 @@ fragment ProductsListItem on ProductEntity {
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {
@@ -1940,6 +1953,9 @@ export const ProductGetListByIdDocument = new TypedDocumentString(`
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {
@@ -1982,6 +1998,9 @@ export const ProductsGetListDocument = new TypedDocumentString(`
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {
@@ -2024,6 +2043,9 @@ export const ProductsGetListFilteredDocument = new TypedDocumentString(`
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {
@@ -2066,6 +2088,9 @@ export const ProductsGetListWithPaginationDocument = new TypedDocumentString(`
     name
     price
     slug
+    isBestseller
+    isNew
+    discount
     description
     descriptionShort
     images {

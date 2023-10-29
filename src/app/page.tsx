@@ -7,13 +7,20 @@ export default async function HomePage() {
 	const bestsellers = await getBestsellersProductsList();
 
 	return (
-		<main className="flex  flex-col items-center justify-center">
-			<div className="w-full text-2xl font-medium">
+		<main className=" flex flex-col">
+			<div className="w-full ">
 				<figure className="relative h-screen w-full">
 					<Image className="object-cover" src={"/banner.jpg"} alt="banner" fill />
+					<div className="absolute inset-0 z-50 flex flex-col items-start justify-center px-16 text-white">
+						<h1 className="mb-1 text-5xl">Zadbaj o więcej niż wygląd włosów</h1>
+						<p className="text-base">Naturalna, świadoma i skuteczna pielęgnacja włosów.</p>
+						<button className="mt-4 rounded-md bg-white px-6 py-2 font-medium uppercase text-black">
+							Przegladaj produkty
+						</button>
+					</div>
 				</figure>
 			</div>
-			<section className="mt-5 px-10">
+			<section className="mt-5 flex flex-col items-center px-10">
 				<h2 className="my-4 font-medium">Nowe produkty</h2>
 				<ProductsList products={newProducts?.slice(0, 4)} />
 				<h2 className="my-4 font-medium">Nasze bestsellery</h2>

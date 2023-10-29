@@ -15,15 +15,7 @@ const navLinks = [
 		href: "/products",
 	},
 	{
-		label: "Shoes",
-		href: "/categories/shoes",
-	},
-	{
-		label: "Skateboards",
-		href: "/categories/skateboards",
-	},
-	{
-		label: "Collections",
+		label: "Kolekcje",
 		href: "/collections",
 	},
 ];
@@ -32,7 +24,7 @@ export const Navbar = async () => {
 	const cart = await getCartFromCookies();
 	const quantity = cart?.data?.attributes?.order_items?.data.length ?? 0;
 	return (
-		<nav className="sticky z-20 mb-10 h-28 w-full items-center border-b border-black/40 bg-white text-black hover:bg-white hover:text-black">
+		<nav className="fixed z-20 h-28 w-full items-center border-b border-black/10 bg-white text-black hover:bg-white hover:text-black">
 			<ul className="flex h-28 items-center justify-between gap-12 px-14">
 				<div className="flex ">
 					<Logo />
