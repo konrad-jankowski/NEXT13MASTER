@@ -20,8 +20,7 @@ const documents = {
     "query CartGetItemById($orderItemId: ID) {\n  orderItem(id: $orderItemId) {\n    data {\n      attributes {\n        Quantity\n        Total\n      }\n    }\n  }\n}": types.CartGetItemByIdDocument,
     "fragment CartOrder on OrderEntity {\n  id\n}": types.CartOrderFragmentDoc,
     "mutation CartRemoveItem($deleteOrderItemId: ID!) {\n  deleteOrderItem(id: $deleteOrderItemId) {\n    data {\n      id\n    }\n  }\n}": types.CartRemoveItemDocument,
-    "mutation CartSetItemQuantity($updateOrderItemId: ID!, $quantity: Int!) {\n  updateOrderItem(id: $updateOrderItemId, data: {Quantity: $quantity}) {\n    data {\n      id\n    }\n  }\n}": types.CartSetItemQuantityDocument,
-    "mutation CartUpdateOrderItem($orderItemId: ID!, $quantity: Int!, $total: Int!) {\n  updateOrderItem(id: $orderItemId, data: {Quantity: $quantity, Total: $total}) {\n    data {\n      id\n    }\n  }\n}": types.CartUpdateOrderItemDocument,
+    "mutation CartSetItemQuantity($updateOrderItemId: ID!, $quantity: Int!, $total: Int!) {\n  updateOrderItem(\n    id: $updateOrderItemId\n    data: {Quantity: $quantity, Total: $total}\n  ) {\n    data {\n      id\n      attributes {\n        Quantity\n        Total\n      }\n    }\n  }\n}": types.CartSetItemQuantityDocument,
     "query CategoriesGetList {\n  categories {\n    data {\n      id\n      attributes {\n        name\n        products {\n          data {\n            attributes {\n              slug\n              name\n              price\n              images {\n                data {\n                  attributes {\n                    url\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}": types.CategoriesGetListDocument,
     "query CollectionsGetList {\n  collections {\n    data {\n      ...CollectionsListItem\n    }\n  }\n}": types.CollectionsGetListDocument,
     "query CollectionsGetListById($collectionId: ID) {\n  collection(id: $collectionId) {\n    data {\n      ...CollectionsListItem\n    }\n  }\n}": types.CollectionsGetListByIdDocument,
@@ -62,11 +61,7 @@ export function graphql(source: "mutation CartRemoveItem($deleteOrderItemId: ID!
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation CartSetItemQuantity($updateOrderItemId: ID!, $quantity: Int!) {\n  updateOrderItem(id: $updateOrderItemId, data: {Quantity: $quantity}) {\n    data {\n      id\n    }\n  }\n}"): typeof import('./graphql').CartSetItemQuantityDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "mutation CartUpdateOrderItem($orderItemId: ID!, $quantity: Int!, $total: Int!) {\n  updateOrderItem(id: $orderItemId, data: {Quantity: $quantity, Total: $total}) {\n    data {\n      id\n    }\n  }\n}"): typeof import('./graphql').CartUpdateOrderItemDocument;
+export function graphql(source: "mutation CartSetItemQuantity($updateOrderItemId: ID!, $quantity: Int!, $total: Int!) {\n  updateOrderItem(\n    id: $updateOrderItemId\n    data: {Quantity: $quantity, Total: $total}\n  ) {\n    data {\n      id\n      attributes {\n        Quantity\n        Total\n      }\n    }\n  }\n}"): typeof import('./graphql').CartSetItemQuantityDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

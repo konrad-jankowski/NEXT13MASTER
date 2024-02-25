@@ -4,7 +4,7 @@ import { ProductsList } from "@/ui/organisms/ProductsList";
 
 export default async function HomePage() {
 	const newProducts = await getNewProductsList();
-	const bestsellers = await getBestsellersProductsList();
+	// const bestsellers = await getBestsellersProductsList();
 
 	return (
 		<main className=" flex flex-col">
@@ -22,9 +22,9 @@ export default async function HomePage() {
 			</div>
 			<section className="mt-5 flex flex-col items-center px-10">
 				<h2 className="my-4 font-medium">Nowe produkty</h2>
-				<ProductsList products={newProducts?.slice(0, 4)} />
+				<ProductsList products={newProducts?.slice(0, 1)} />
 				<h2 className="my-4 font-medium">Nasze bestsellery</h2>
-				<ProductsList products={bestsellers?.slice(0, 4)} />
+				{/* <ProductsList products={bestsellers?.slice(0, 1)} /> */}
 			</section>
 		</main>
 	);

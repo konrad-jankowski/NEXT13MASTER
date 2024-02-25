@@ -1424,19 +1424,11 @@ export type CartRemoveItemMutation = { deleteOrderItem?: { data?: { id?: string 
 export type CartSetItemQuantityMutationVariables = Exact<{
   updateOrderItemId: Scalars['ID']['input'];
   quantity: Scalars['Int']['input'];
-}>;
-
-
-export type CartSetItemQuantityMutation = { updateOrderItem?: { data?: { id?: string | null } | null } | null };
-
-export type CartUpdateOrderItemMutationVariables = Exact<{
-  orderItemId: Scalars['ID']['input'];
-  quantity: Scalars['Int']['input'];
   total: Scalars['Int']['input'];
 }>;
 
 
-export type CartUpdateOrderItemMutation = { updateOrderItem?: { data?: { id?: string | null } | null } | null };
+export type CartSetItemQuantityMutation = { updateOrderItem?: { data?: { id?: string | null, attributes?: { Quantity: number, Total: number } | null } | null } | null };
 
 export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1722,23 +1714,21 @@ export const CartRemoveItemDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<CartRemoveItemMutation, CartRemoveItemMutationVariables>;
 export const CartSetItemQuantityDocument = new TypedDocumentString(`
-    mutation CartSetItemQuantity($updateOrderItemId: ID!, $quantity: Int!) {
-  updateOrderItem(id: $updateOrderItemId, data: {Quantity: $quantity}) {
+    mutation CartSetItemQuantity($updateOrderItemId: ID!, $quantity: Int!, $total: Int!) {
+  updateOrderItem(
+    id: $updateOrderItemId
+    data: {Quantity: $quantity, Total: $total}
+  ) {
     data {
       id
+      attributes {
+        Quantity
+        Total
+      }
     }
   }
 }
     `) as unknown as TypedDocumentString<CartSetItemQuantityMutation, CartSetItemQuantityMutationVariables>;
-export const CartUpdateOrderItemDocument = new TypedDocumentString(`
-    mutation CartUpdateOrderItem($orderItemId: ID!, $quantity: Int!, $total: Int!) {
-  updateOrderItem(id: $orderItemId, data: {Quantity: $quantity, Total: $total}) {
-    data {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CartUpdateOrderItemMutation, CartUpdateOrderItemMutationVariables>;
 export const CategoriesGetListDocument = new TypedDocumentString(`
     query CategoriesGetList {
   categories {

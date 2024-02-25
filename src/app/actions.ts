@@ -3,12 +3,22 @@
 import { executeGraphql } from "@/api/graphqlApi";
 import { CartRemoveItemDocument, CartSetItemQuantityDocument } from "@/gql/graphql";
 
-export const changeItemQuantity = (itemId: string, quantity: number) => {
+export const changeItemQuantity = async (
+	itemId: string,
+	quantity: number,
+	productPrice: number,
+) => {
+	console.log(quantity * productPrice);
+
 	return executeGraphql({
 		query: CartSetItemQuantityDocument,
 		variables: {
 			updateOrderItemId: itemId,
 			quantity: quantity,
+			total: quantity * productPrice,
+		},
+		next: {
+			tags: ["cart"],
 		},
 	});
 };

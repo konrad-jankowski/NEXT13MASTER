@@ -1,3 +1,4 @@
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Image from "next/image";
@@ -15,10 +16,6 @@ export const metadata: Metadata = {
 
 export default async function CartPage() {
 	const cartId = cookies().get("cartId")?.value;
-
-	if (!cartId) {
-		redirect("/");
-	}
 
 	const { order: cart } = await executeGraphql({
 		query: CartGetByIdDocument,
@@ -40,7 +37,7 @@ export default async function CartPage() {
 		<div className="mt-[7rem] flex  gap-6 bg-gray-100 p-12">
 			<div className="h-fit basis-[70%] bg-white p-10">
 				<h1 className="mb-3 text-lg font-medium">Koszyk ({quantity})</h1>
-				<p>Kup za 179,02 zł więcej i otrzymaj darmową wysyłkę</p>
+				<p className="py-1">Kup za minimum 200 zł więcej i otrzymaj darmową wysyłkę</p>
 				{cart.data?.attributes?.order_items?.data.map((item) => (
 					<div key={item.id} className="my-2 flex justify-between">
 						<div className="flex gap-6">
@@ -55,16 +52,16 @@ export default async function CartPage() {
 							/>
 							<div className="flex flex-col justify-between py-3">
 								<h2 className="font-medium">{item.attributes?.product?.data?.attributes?.name}</h2>
-								<p>{item.attributes?.Quantity} x</p>
 								<ChangeQuantity
 									key={item.id}
-									itemId={item.id}
+									itemId={item.id as string}
 									quantity={item.attributes?.Quantity ?? 0}
+									productPrice={item.attributes?.product?.data?.attributes?.price ?? 0}
 								/>
 							</div>
 						</div>
 						<div className="flex flex-col justify-around">
-							<RemoveButton productId={item.id} />
+							<RemoveButton productId={item.id as string} />
 							<p>{formatMoney(item.attributes?.Total ?? 0)}</p>
 						</div>
 					</div>
@@ -85,7 +82,7 @@ export default async function CartPage() {
 				</p>
 				<div className="mb-2 flex justify-between border-t border-black/20 pt-5 font-medium">
 					<h3>Razem</h3>
-					<p>179,97</p>
+					<p>{cart.data?.attributes?.Total}</p>
 				</div>
 				<button className="rounded-md bg-black px-8 py-2 uppercase text-white">idź do kasy</button>
 			</div>

@@ -5,7 +5,7 @@ import {
 	CartAddItemDocument,
 	CartCreateDocument,
 	CartGetByIdDocument,
-	CartUpdateOrderItemDocument,
+	CartSetItemQuantityDocument,
 } from "@/gql/graphql";
 
 export const getCartFromCookies = async () => {
@@ -35,7 +35,7 @@ export const createCart = async () => {
 		console.log("Failed to create cart");
 	}
 
-	cookies().set("cartId", newCart.data?.id, {
+	cookies().set("cartId", newCart.data?.id as string, {
 		httpOnly: true,
 		sameSite: "lax",
 	});
@@ -66,35 +66,43 @@ export async function addProductToCart(cartId: string, productId: string) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
 
-	if (isProductInCart && productInCart?.id && productInCart?.attributes?.Quantity) {
+	if (
+		isProductInCart &&
+		productInCart?.id &&
+		productInCart?.attributes?.Quantity &&
+		productInCart?.attributes?.product?.data?.attributes?.price
+	) {
 		await updateCartItems(
 			productInCart?.id,
 			productInCart?.attributes?.Quantity + 1,
-			productInCart?.attributes?.Quantity *
-				productInCart.attributes.product?.data?.attributes?.price +
-				productInCart.attributes.product?.data?.attributes?.price,
+			productInCart.attributes.product?.data?.attributes?.price,
 		);
 	} else {
 		console.log("Produkt nie jest w koszyku");
+		if (!product.attributes?.price) {
+			return null;
+		}
 		await executeGraphql({
 			query: CartAddItemDocument,
 			variables: {
 				date: new Date().toISOString(),
 				orderId: cartId,
-				productId: product.id,
+				productId: product.id as string,
 				quantity: 1,
-				total: product.attributes?.price * 100,
+				total: product.attributes?.price,
 			},
 		});
 	}
 }
-export async function updateCartItems(orderItemId: string, quantity: number, total: number) {
+export async function updateCartItems(orderItemId: string, quantity: number, price: number) {
+	console.log(orderItemId, quantity, price);
+
 	await executeGraphql({
-		query: CartUpdateOrderItemDocument,
+		query: CartSetItemQuantityDocument,
 		variables: {
-			orderItemId: orderItemId,
+			updateOrderItemId: orderItemId.toString(),
 			quantity: quantity,
-			total: total,
+			total: quantity * price,
 		},
 	});
 }

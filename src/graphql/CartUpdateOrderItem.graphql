@@ -1,7 +1,0 @@
-mutation CartUpdateOrderItem($orderItemId: ID!, $quantity: Int!, $total: Int!) {
-	updateOrderItem(id: $orderItemId, data: { Quantity: $quantity, Total: $total }) {
-		data {
-			id
-		}
-	}
-}
